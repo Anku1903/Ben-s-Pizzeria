@@ -30,42 +30,88 @@ orders
 
 # It's look like there is many redandency records right?
 
-- Orders table Normalization
+- Let's normalize order table
 
 orders
 -
-row_id int pk
-order_id varchar(10)
-create_at datetime
-quantity int
-cust_id int
-add_id int
-item_id varchar(20)
+- row_id int pk
+- order_id varchar(10)
+- create_at datetime
+- quantity int
+- cust_id int
+- add_id int
+- item_id varchar(20)
 
 customers
--
-cust_id int pk FK >- orders.cust_id
-customer_firstname varchar(50)
-customer_lastname varchar(50)
 
+- cust_id int pk FK >- orders.cust_id
+- customer_firstname varchar(50)
+- customer_lastname varchar(50)
 
 address
--
-add_id int FK >- orders.add_id
-delivery_address_1 varchar(250)
-delivery_address_2 varchar(250)
-delivery_city varchar(50)
-delivery_zipcode varchar(20)
-delivery boolean
+
+- add_id int FK >- orders.add_id
+- delivery_address_1 varchar(250)
+- delivery_address_2 varchar(250)
+- delivery_city varchar(50)
+- delivery_zipcode varchar(20)
+- delivery boolean
 
 items
 -
-item_id varchar(20) FK >- orders.item_id
-sku varchar(50)
-item_name varchar(100)
-item_category varchar(100)
-item_price decimal(5,2)
-item_size varchar(20)
+- item_id varchar(20) FK >- orders.item_id
+- sku varchar(50)
+- item_name varchar(100)
+- item_category varchar(100)
+- item_price decimal(5,2)
+- item_size varchar(20)
+
+# 2. Stock control tables
+
+ingredients
+
+- ing_id varchar(50) PK,
+- ing_name varchar(100),
+- ing_price decimal(5,2),
+- ing_weight int,
+- ing_measure varchar(20)
+
+recipe
+
+- row_id int PK,
+- recipe_id varchar(20),
+- ing_id varchar(50) FK >- ingredients.ing_id,
+- quantity int
+
+inventory
+
+- inventory_id varchar(50),
+- item_id varchar(50) FK >- ingredients.ing_id,
+- quantity int
+
+# 3. Staff tables
+
+staff
+
+- staff_id varchar(20) PK,
+- firstname varchar(50),
+- lastname varchar(50),
+- horu_rate decimal(5,2),
+- position varchar(50)
+
+shift
+
+- shift_id varchar(20) PK,
+- start_time time,
+- end_time time,
+- day varchar(10)
+
+working
+
+- row_id int PK,
+- staff_id varchar(50) FK >- staff.staff_id,
+- shift_id varchar(50) FK >- shift.shift_id,
+- working_date date,
 
 
 
